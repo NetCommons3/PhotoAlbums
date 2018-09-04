@@ -45,7 +45,8 @@ class PhotoAlbumsSettingUtility {
 		self::$__isSetting = (
 			$request->params['action'] == 'setting' ||
 			end($request->params['pass']) == self::SETTING_WORD ||
-			Hash::get($request->params, ['key']) == self::SETTING_WORD
+			(isset($request->params['key']) &&
+				$request->params['key'] === self::SETTING_WORD)
 		);
 
 		return self::$__isSetting;

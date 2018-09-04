@@ -52,18 +52,22 @@
 		<span class="btn-group">
 			<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 				<?php
-					switch (Hash::get($this->request->params, ['named', 'status'])) {
-						case WorkflowComponent::STATUS_APPROVAL_WAITING:
-							echo __d('photo_albums', 'Pending approved');
-							break;
-						case WorkflowComponent::STATUS_DISAPPROVED:
-							echo __d('photo_albums', 'Disapproved');
-							break;
-						case WorkflowComponent::STATUS_IN_DRAFT:
-							echo __d('photo_albums', 'In draft');
-							break;
-						default:
-							echo __d('net_commons', 'Display all');
+					if (isset($this->request->params['named']['status'])) {
+						switch ($this->request->params['named']['status']) {
+							case WorkflowComponent::STATUS_APPROVAL_WAITING:
+								echo __d('photo_albums', 'Pending approved');
+								break;
+							case WorkflowComponent::STATUS_DISAPPROVED:
+								echo __d('photo_albums', 'Disapproved');
+								break;
+							case WorkflowComponent::STATUS_IN_DRAFT:
+								echo __d('photo_albums', 'In draft');
+								break;
+							default:
+								echo __d('net_commons', 'Display all');
+						}
+					} else {
+						echo __d('net_commons', 'Display all');
 					}
 				?>
 				<span class="caret">

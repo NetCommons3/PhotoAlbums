@@ -305,14 +305,18 @@ class PhotoAlbumsController extends PhotoAlbumsAppController {
  * jacket method
  *
  * @throws NotFoundException
- * @return void
+ * @return CakeResponse
  */
 	public function jacket() {
 		App::uses('PhotoAlbum', 'PhotoAlbums.Model');
 		$contentId = $this->request->params['key'];
+		$size = 'medium';
+		if (isset($this->request->params['pass'][0])) {
+			$size = $this->request->params['pass'][0];
+		}
 		$options = array(
 			'field' => PhotoAlbum::ATTACHMENT_FIELD_NAME,
-			'size' => Hash::get($this->request->params['pass'], 0, 'medium')
+			'size' => $size
 		);
 
 		return $this->Download->doDownload($contentId, $options);

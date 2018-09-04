@@ -91,9 +91,9 @@ class PhotoAlbumPhotosController extends PhotoAlbumsAppController {
 
 		$conditions = $this->PhotoAlbumPhoto->getWorkflowConditions();
 		$conditions['PhotoAlbumPhoto.album_key'] = $this->request->params['key'];
-		$status = Hash::get($this->request->params, ['named', 'status']);
-		if ($status) {
-			$conditions['PhotoAlbumPhoto.status'] = $status;
+		if (isset($this->request->params['named']['status']) &&
+			! empty($this->request->params['named']['status'])) {
+			$conditions['PhotoAlbumPhoto.status'] = $this->request->params['named']['status'];
 		}
 
 		$this->Paginator->settings = array(
@@ -128,7 +128,7 @@ class PhotoAlbumPhotosController extends PhotoAlbumsAppController {
 			)
 		);
 		$this->set('photos', $this->Paginator->paginate('PhotoAlbumPhoto'));
-		$this->set('active', Hash::get($this->request->params['pass'], 0));
+		$this->set('active', $this->request->params['pass'][0]);
 	}
 
 /**
@@ -286,14 +286,18 @@ class PhotoAlbumPhotosController extends PhotoAlbumsAppController {
  * photo method
  *
  * @throws NotFoundException
- * @return void
+ * @return CakeResponse
  */
 	public function photo() {
 		App::uses('PhotoAlbumPhoto', 'PhotoAlbums.Model');
 		$contentId = $this->request->params['pass'][0];
+		$size = 'medium';
+		if (isset($this->request->params['pass'][1])) {
+			$size = $this->request->params['pass'][1];
+		}
 		$options = array(
 			'field' => PhotoAlbumPhoto::ATTACHMENT_FIELD_NAME,
-			'size' => Hash::get($this->request->params['pass'], 1, 'medium')
+			'size' => $size
 		);
 
 		return $this->Download->doDownload($contentId, $options);

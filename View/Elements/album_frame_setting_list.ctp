@@ -85,7 +85,7 @@
 								'ng-value' => 'album.PhotoAlbum.key',
 								'ng-hide' => 'FrameSettingController.displayType == ' . PhotoAlbumFrameSetting::DISPLAY_TYPE_ALBUMS,
 								'ng-disabled' => 'FrameSettingController.displayType == ' . PhotoAlbumFrameSetting::DISPLAY_TYPE_ALBUMS,
-								'ng-checked' => "album.PhotoAlbum.key == '" . Hash::get($displayAlbumKeys, 0) . "'",
+								'ng-checked' => "album.PhotoAlbum.key == '" . $displayAlbumKeys[0] . "'",
 							)
 						);
 					?>
